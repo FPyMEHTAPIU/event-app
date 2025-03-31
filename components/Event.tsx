@@ -1,19 +1,25 @@
+import React from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
+import { EventData } from "@/services/events";
 
-const Event = () => {
+interface EventProps {
+  event: EventData;
+}
+
+const Event: React.FC<EventProps> = ({ event }) => {
   return (
     <View style={style.eventContainer}>
       <View style={style.infoContainer}>
-        {/*<Image source={require('img')} />*/}
+        <Image source={event.photo_url} style={style.imageContainer} />
         <View style={style.textContainer}>
-          <Text style={style.title}></Text>
-          <Text style={style.description}></Text>
+          <Text style={style.title}>{event.title}</Text>
+          <Text style={style.description}>{event.description}</Text>
         </View>
       </View>
       <View style={style.actionContainer}>
         <View style={style.dateContainer}>
-          <Text style={style.dateTime}></Text>
-          <Text style={style.dateTime}></Text>
+          <Text style={style.dateTime}>{event.date}</Text>
+          <Text style={style.dateTime}>{event.time}</Text>
         </View>
       </View>
     </View>
@@ -33,6 +39,7 @@ const style = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
