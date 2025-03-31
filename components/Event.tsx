@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import { EventData } from "@/services/events";
+import BookButton from "@/components/BookButton";
 
 interface EventProps {
   event: EventData;
@@ -21,6 +22,7 @@ const Event: React.FC<EventProps> = ({ event }) => {
           <Text style={style.dateTime}>{event.date}</Text>
           <Text style={style.dateTime}>{event.time}</Text>
         </View>
+        <BookButton />
       </View>
     </View>
   );
@@ -68,11 +70,13 @@ const style = StyleSheet.create({
   actionContainer: {
     flex: 1,
     justifyContent: "space-between",
+    flexDirection: "row",
     alignItems: "center",
     alignSelf: "stretch",
   },
   dateContainer: {
     alignItems: "center",
+    flexDirection: "row",
     gap: 8,
   },
   dateTime: {
