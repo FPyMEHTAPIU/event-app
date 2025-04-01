@@ -3,18 +3,18 @@ import pool from "../config/database";
 import Joi from "joi";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const router = express.Router();
+const userRouter = express.Router();
 const secret = process.env.SECRET_KEY;
 
-router.get(
-  "/users/:id",
+userRouter.get(
+  "/api/users/:id",
   async (req: express.Request, res: express.Response) => {
     try {
       const result = await pool.query("SELECT * FROM users WHERE id = $1;", [
         req.params.id,
       ]);
       if (result.rows.length === 0) {
-        res.status(404).send("User not found");
+        res.status(404).json({ error: "User not found" });
         return;
       }
       res.status(200).json(result.rows);
@@ -24,8 +24,8 @@ router.get(
   },
 );
 
-router.post(
-  "/users/register",
+userRouter.post(
+  "/api/users/register",
   async (req: express.Request, res: express.Response) => {
     try {
       const userData: {
@@ -47,7 +47,7 @@ router.post(
 
       const { error } = schema.validate(userData);
       if (error) {
-        res.status(400).send(error);
+        res.status(400).json(error);
         return;
       }
 
@@ -57,11 +57,10 @@ router.post(
       );
 
       if (duplicate.rows.length !== 0) {
-        res
-          .status(409)
-          .send(
+        res.status(409).json({
+          error:
             "An account with this email already exists. Please log in or use a different email.",
-          );
+        });
         return;
       }
 
@@ -72,18 +71,18 @@ router.post(
         [userData.login, encryptedPassword, userData.name],
       );
       if (result.rows.length === 0) {
-        res.status(500).send("User was not created");
+        res.status(500).json({ error: "User was not created" });
         return;
       }
-      res.status(201).send("User created successfully!");
+      res.status(201).json({ error: "User created successfully!" });
     } catch (error) {
       console.error(error);
     }
   },
 );
 
-router.post(
-  "/users/login",
+userRouter.post(
+  "/api/users/login",
   async (req: express.Request, res: express.Response) => {
     try {
       const { login, password } = req.body;
@@ -93,7 +92,7 @@ router.post(
         [login],
       );
       if (searchUserResult.rows.length === 0) {
-        res.status(404).send("User not found");
+        res.status(404).json({ error: "User not found" });
         return;
       }
 
@@ -102,11 +101,13 @@ router.post(
         searchUserResult.rows[0].password,
       );
       if (!passwordCheck) {
-        res.status(400).send("Password doesn't match.");
+        res.status(400).json({ error: "Password doesn't match." });
         return;
       }
       if (!secret) {
-        res.status(500).send("Authorization failed on the server side.");
+        res
+          .status(500)
+          .json({ error: "Authorization failed on the server side." });
         return;
       }
       const token = jwt.sign(
@@ -120,3 +121,5 @@ router.post(
     }
   },
 );
+
+export default userRouter;

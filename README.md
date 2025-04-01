@@ -2,9 +2,24 @@
 
 ## Installation guide
 
-### 1. Setting up a database
+### 1. Installing dependencies
 
-Go to the `database` folder
+At the root folder run:
+
+```bash
+npm install
+```
+
+Then run the following command:
+
+```bash
+cd src/server
+npm install
+```
+
+### 2. Setting up a database
+
+Go to the `database` folder:
 
 ```bash
 cd server/database
@@ -36,9 +51,9 @@ To stop the container run:
 docker stop container-name
 ```
 
-### 2. Setting up the server
+### 3. Setting up the server
 
-Go to the `server` folder
+Go to the `server` folder:
 
 ```bash
 cd server
@@ -52,7 +67,7 @@ Run the following command:
 npm start
 ```
 
-### 3. Running the app
+### 4. Running the app
 
 Now at the root folder run:
 
