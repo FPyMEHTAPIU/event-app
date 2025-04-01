@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { EventData } from "@/services/events";
 import BookButton from "@/components/buttons/BookButton";
 
@@ -11,7 +11,7 @@ const Event: React.FC<EventProps> = ({ event }) => {
   return (
     <View style={style.eventContainer}>
       <View style={style.infoContainer}>
-        <Image source={event.photo_url} style={style.imageContainer} />
+        <Image source={{ uri: event.photo }} style={style.imageContainer} />
         <View style={style.textContainer}>
           <Text style={style.title}>{event.title}</Text>
           <Text style={style.description}>{event.description}</Text>
@@ -30,45 +30,51 @@ const Event: React.FC<EventProps> = ({ event }) => {
 
 const style = StyleSheet.create({
   eventContainer: {
-    flex: 1,
-    padding: 16,
-    height: 148,
-    flexDirection: "column",
-    gap: 10,
+    paddingVertical: 16,
+    paddingHorizontal: 10,
+    height: 157,
+    width: "100%",
+    gap: 16,
     borderRadius: 8,
     alignSelf: "stretch",
-    backgroundColor: "red",
+    backgroundColor: "#F5F8FF",
   },
   infoContainer: {
-    flex: 1,
+    width: "100%",
     flexDirection: "row",
+    gap: 16,
     justifyContent: "space-between",
     alignItems: "center",
   },
   imageContainer: {
-    width: 72,
-    height: 72,
-    borderRadius: 50,
+    width: 77,
+    height: 77,
+    borderRadius: 77,
   },
   textContainer: {
-    height: 72,
+    height: 77,
+    width: "100%",
     overflow: "hidden",
     flexDirection: "column",
     alignItems: "flex-start",
+    flex: 1,
     gap: 8,
   },
   title: {
     fontSize: 20,
     fontFamily: "Roboto",
-    fontWeight: 400,
+    fontWeight: 700,
+    color: "black",
   },
   description: {
     fontSize: 12,
     fontFamily: "Roboto",
     fontWeight: 400,
+    color: "#262627",
+    width: "100%",
+    flexWrap: "wrap",
   },
   actionContainer: {
-    flex: 1,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
@@ -80,9 +86,10 @@ const style = StyleSheet.create({
     gap: 8,
   },
   dateTime: {
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: "Roboto",
     fontWeight: 400,
+    color: "#262627",
   },
 });
 

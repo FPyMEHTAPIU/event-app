@@ -33,7 +33,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({
   const dispatch = useDispatch();
 
   const isValidInputs = (data: LoginDataProps | RegisterDataProps): boolean => {
-    if ("name" in data && "passwordConfirmation" in data) {
+    if (!isLoginScreen && "name" in data && "passwordConfirmation" in data) {
       if (
         !data.name ||
         !data.login ||
@@ -54,6 +54,7 @@ const AuthButton: React.FC<AuthButtonProps> = ({
         return false;
       }
     }
+    setErrorMessage("");
     return true;
   };
 

@@ -89,7 +89,6 @@ function RootLayoutNav() {
           name={isAuthenticated ? "(tabs)" : "login"}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>
     </ThemeProvider>
   );

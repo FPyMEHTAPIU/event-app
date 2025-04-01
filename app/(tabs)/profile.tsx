@@ -17,20 +17,10 @@ export default function ProfileScreen() {
     dispatch(setToken(null));
   };
 
-  const getEvents = async () => {
-    try {
-      const result = await fetch(`${ipPort}/api/events`);
-      const data = await result.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <View>
       <Button title="Logout" onPress={handleLogout} />
-      <Button title="get events" onPress={getEvents} />
+      {/*<Button title="get events" onPress={getEvents} />*/}
     </View>
   );
 }

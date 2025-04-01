@@ -1,34 +1,66 @@
-import { StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  Button,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import Event from "@/components/Event";
-import events from "@/services/events";
+import Constants from "expo-constants";
+import { useEffect, useState } from "react";
+const ipPort =
+  Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
+// import events from "@/services/events";
 
 export default function HomeScreen() {
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const getEvents = async () => {
+    setLoading(true);
+    try {
+      const result = await fetch(`${ipPort}/api/events`);
+      const data = await result.json();
+      if (result.status === 200 && data?.events) {
+        setEvents(data.events);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getEvents();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      {events.map((event, index) => {
-        return <Event key={index} event={event} />;
-      })}
-    </View>
+    <ScrollView style={styles.container}>
+      <Button title="Get events" onPress={getEvents} />
+
+      {loading && <ActivityIndicator size="large" color="#007AFF" />}
+
+      <View style={styles.eventsContainer}>
+        {events.length > 0
+          ? events.map((event, index) => (
+              <Event key={event.id || index} event={event} />
+            ))
+          : !loading && <Text>No events available</Text>}
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 16,
+    height: "100%",
     gap: 8,
-    justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  eventsContainer: {
+    width: "100%",
+    padding: 24,
+    gap: 20,
   },
 });

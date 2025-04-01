@@ -5,12 +5,14 @@ interface inputContainerProps {
   placeholderValue: string;
   children: React.ReactNode;
   setData: (data: string) => void;
+  setErrorMessage: (errMsg: string) => void;
 }
 
 const InputContainer: React.FC<inputContainerProps> = ({
   placeholderValue,
   children,
   setData,
+  setErrorMessage,
 }) => {
   return (
     <View style={style.inputContainerWrapper}>
@@ -18,7 +20,10 @@ const InputContainer: React.FC<inputContainerProps> = ({
       <TextInput
         placeholder={placeholderValue}
         style={style.inputContainer}
-        onChangeText={(text) => setData(text)}
+        onChangeText={(text) => {
+          setData(text);
+          setErrorMessage("");
+        }}
         secureTextEntry={
           typeof children === "string" &&
           children.toLowerCase().includes("password")

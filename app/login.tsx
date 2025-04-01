@@ -38,6 +38,7 @@ const LoginScreen = () => {
             <InputContainer
               placeholderValue={"What's your name?"}
               setData={getOneFieldSetter("name")}
+              setErrorMessage={setErrorMessage}
             >
               Your name
             </InputContainer>
@@ -45,12 +46,14 @@ const LoginScreen = () => {
           <InputContainer
             placeholderValue={"email@box.com"}
             setData={getOneFieldSetter("login")}
+            setErrorMessage={setErrorMessage}
           >
             Your email
           </InputContainer>
           <InputContainer
             placeholderValue={"At least 8 characters"}
             setData={getOneFieldSetter("password")}
+            setErrorMessage={setErrorMessage}
           >
             Enter password
           </InputContainer>
@@ -58,6 +61,7 @@ const LoginScreen = () => {
             <InputContainer
               placeholderValue={"Repeat the password"}
               setData={getOneFieldSetter("passwordConfirmation")}
+              setErrorMessage={setErrorMessage}
             >
               Re-enter password
             </InputContainer>
