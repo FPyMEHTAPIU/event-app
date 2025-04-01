@@ -1,9 +1,10 @@
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { Button, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React, { useState } from "react";
 import AuthButton from "@/components/buttons/AuthButton";
 import LoginFormSwitch from "@/components/LoginFormSwitch";
 import InputContainer from "@/components/InputContainer";
+import Popup from "@/components/Popup";
 
 export interface loginScreenProps {
   isLoginScreen: boolean;
@@ -13,6 +14,7 @@ export interface loginScreenProps {
 const LoginScreen = () => {
   const [isLoginScreen, setIsLoginScreen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [popup, setPopup] = useState<boolean>(false);
   const [userData, setUserData] = useState({
     login: "",
     password: "",
@@ -26,57 +28,70 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={style.mainContainer}>
-      <Text style={style.mainTitleText}>
-        {isLoginScreen ? "Log in" : "Register"}
-      </Text>
-      <View style={style.wrapperContainer}>
-        {!isLoginScreen && (
+    <>
+      <View style={style.mainContainer}>
+        <Text style={style.mainTitleText}>
+          {isLoginScreen ? "Log in" : "Register"}
+        </Text>
+        <View style={style.wrapperContainer}>
+          {!isLoginScreen && (
+            <InputContainer
+              placeholderValue={"What's your name?"}
+              setData={getOneFieldSetter("name")}
+            >
+              Your name
+            </InputContainer>
+          )}
           <InputContainer
-            placeholderValue={"What's your name?"}
-            setData={getOneFieldSetter("name")}
+            placeholderValue={"email@box.com"}
+            setData={getOneFieldSetter("login")}
           >
-            Your name
+            Your email
           </InputContainer>
-        )}
-        <InputContainer
-          placeholderValue={"email@box.com"}
-          setData={getOneFieldSetter("login")}
-        >
-          Your email
-        </InputContainer>
-        <InputContainer
-          placeholderValue={"At least 8 characters"}
-          setData={getOneFieldSetter("password")}
-        >
-          Enter password
-        </InputContainer>
-        {!isLoginScreen && (
           <InputContainer
-            placeholderValue={"Repeat the password"}
-            setData={getOneFieldSetter("passwordConfirmation")}
+            placeholderValue={"At least 8 characters"}
+            setData={getOneFieldSetter("password")}
           >
-            Re-enter password
+            Enter password
           </InputContainer>
-        )}
-        <LoginFormSwitch
-          isLoginScreen={isLoginScreen}
-          setIsLoginScreen={setIsLoginScreen}
-        />
-      </View>
-      <View style={style.buttonErrorContainer}>
-        {errorMessage.length > 0 && (
-          <Text style={style.errorText}>{errorMessage}</Text>
-        )}
-        <View>
-          <AuthButton
+          {!isLoginScreen && (
+            <InputContainer
+              placeholderValue={"Repeat the password"}
+              setData={getOneFieldSetter("passwordConfirmation")}
+            >
+              Re-enter password
+            </InputContainer>
+          )}
+          <LoginFormSwitch
             isLoginScreen={isLoginScreen}
-            data={userData}
-            setErrorMessage={setErrorMessage}
+            setIsLoginScreen={setIsLoginScreen}
           />
         </View>
+        <View style={style.buttonErrorContainer}>
+          {errorMessage.length > 0 && (
+            <Text style={style.errorText}>{errorMessage}</Text>
+          )}
+          <View>
+            <AuthButton
+              isLoginScreen={isLoginScreen}
+              data={userData}
+              setErrorMessage={setErrorMessage}
+              setIsLoginScreen={setIsLoginScreen}
+              setPopup={setPopup}
+            />
+          </View>
+        </View>
       </View>
-    </View>
+      {popup && (
+        <Popup
+          setPopup={setPopup}
+          slots={{
+            title: "Account created",
+            description: "You will be redirected to the login page in 5 sec.",
+          }}
+        />
+      )}
+    </>
   );
 };
 
@@ -98,6 +113,7 @@ const style = StyleSheet.create({
   },
   buttonErrorContainer: {
     gap: 8,
+    width: 300,
   },
   errorText: {
     fontSize: 16,

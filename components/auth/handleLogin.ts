@@ -5,7 +5,6 @@ const ipPort =
   Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
 import { LoginDataProps } from "@/components/buttons/AuthButton";
 import { setToken } from "@/store/authSlice";
-import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 
 const handleLogin = async (
@@ -14,7 +13,6 @@ const handleLogin = async (
   dispatch: Dispatch,
 ) => {
   try {
-    console.log(data);
     const loginResponse = await fetch(`${ipPort}/api/users/login`, {
       method: "POST",
       headers: {
