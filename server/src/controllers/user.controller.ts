@@ -10,9 +10,10 @@ userRouter.get(
   "/api/users/:id",
   async (req: express.Request, res: express.Response) => {
     try {
-      const result = await pool.query("SELECT * FROM users WHERE id = $1;", [
-        req.params.id,
-      ]);
+      const result = await pool.query(
+        "SELECT login, name, photo FROM users WHERE id = $1;",
+        [req.params.id],
+      );
       if (result.rows.length === 0) {
         res.status(404).json({ error: "User not found" });
         return;
@@ -33,9 +34,15 @@ userRouter.post(
         password: string;
         name: string;
       } = req.body;
+      if (!userData) {
+        res
+          .status(400)
+          .json({ error: "Login, password and name are required!" });
+        return;
+      }
 
       const schema = Joi.object({
-        email: Joi.string().email().required(),
+        login: Joi.string().email().required(),
         password: Joi.string()
           .min(8)
           .pattern(/[A-Z]/, "uppercase")
@@ -47,12 +54,12 @@ userRouter.post(
 
       const { error } = schema.validate(userData);
       if (error) {
-        res.status(400).json(error);
+        res.status(400).json({ error: error.details[0].message });
         return;
       }
 
       const duplicate = await pool.query(
-        "SELECT * FROM users WHERE login = $1;",
+        "SELECT login FROM users WHERE login = $1;",
         [userData.login],
       );
 
@@ -67,7 +74,7 @@ userRouter.post(
       const encryptedPassword = await bcrypt.hash(userData.password, 10);
 
       const result = await pool.query(
-        "INSERT INTO users (login, password, name) VALUES ($1, $2, $3) RETURNING *;",
+        "INSERT INTO users (login, password, name) VALUES ($1, $2, $3) RETURNING login;",
         [userData.login, encryptedPassword, userData.name],
       );
       if (result.rows.length === 0) {
@@ -88,7 +95,7 @@ userRouter.post(
       const { login, password } = req.body;
 
       const searchUserResult = await pool.query(
-        "SELECT * FROM users WHERE login = $1;",
+        "SELECT id, password FROM users WHERE login = $1;",
         [login],
       );
       if (searchUserResult.rows.length === 0) {
