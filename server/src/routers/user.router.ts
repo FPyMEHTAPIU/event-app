@@ -132,7 +132,7 @@ userRouter.post("/api/users/login", async (req: Request, res: Response) => {
     const token = jwt.sign({ id: searchUserResult.rows[0].id, login }, secret, {
       expiresIn: "1d",
     });
-    res.status(200).json(token);
+    res.status(200).json({ token: token });
   } catch (error) {
     console.error(error);
   }

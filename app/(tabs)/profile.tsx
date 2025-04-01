@@ -1,33 +1,38 @@
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
+// import {fetch} from "expo/fetch";
+import * as SecureStore from "expo-secure-store";
 
 import { Text, View } from "@/components/Themed";
+import { useDispatch } from "react-redux";
+import { setToken } from "@/store/authSlice";
+import Constants from "expo-constants";
+const ipPort =
+  Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
 
 export default function ProfileScreen() {
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    await SecureStore.deleteItemAsync("userToken");
+    dispatch(setToken(null));
+  };
+
+  const getEvents = async () => {
+    try {
+      const result = await fetch(`${ipPort}/api/events`);
+      const data = await result.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Three</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+    <View>
+      <Button title="Logout" onPress={handleLogout} />
+      <Button title="get events" onPress={getEvents} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const styles = StyleSheet.create({});

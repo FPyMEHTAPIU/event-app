@@ -4,24 +4,34 @@ import { TextInput, StyleSheet } from "react-native";
 interface inputContainerProps {
   placeholderValue: string;
   children: React.ReactNode;
+  setData: (data: string) => void;
 }
 
 const InputContainer: React.FC<inputContainerProps> = ({
   placeholderValue,
   children,
+  setData,
 }) => {
   return (
-    <View>
+    <View style={style.inputContainerWrapper}>
       <Text style={style.inputTitle}>{children}</Text>
       <TextInput
         placeholder={placeholderValue}
         style={style.inputContainer}
+        onChangeText={(text) => setData(text)}
+        secureTextEntry={
+          typeof children === "string" &&
+          children.toLowerCase().includes("password")
+        }
       ></TextInput>
     </View>
   );
 };
 
 const style = StyleSheet.create({
+  inputContainerWrapper: {
+    gap: 6,
+  },
   inputTitle: {
     fontFamily: "Roboto",
     fontSize: 18,
@@ -34,6 +44,7 @@ const style = StyleSheet.create({
     borderColor: "black",
     borderRadius: 8,
     width: 300,
+    padding: 8,
   },
 });
 

@@ -1,14 +1,14 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
-import { loginProps } from "@/app/login";
+import { loginScreenProps } from "@/app/login";
 
-const LoginFormSwitch: React.FC<loginProps> = ({
+const LoginFormSwitch: React.FC<loginScreenProps> = ({
   isLoginScreen,
   setIsLoginScreen,
 }) => {
   return (
-    <View>
+    <View style={style.switchWrapper}>
       <Text style={style.textDefault}>
         {!isLoginScreen ? "Already" : "Don't"} have an account?
       </Text>
@@ -22,6 +22,9 @@ const LoginFormSwitch: React.FC<loginProps> = ({
 };
 
 const style = StyleSheet.create({
+  switchWrapper: {
+    alignSelf: "center",
+  },
   textDefault: {
     fontFamily: "Roboto",
     fontSize: 16,
