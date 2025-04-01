@@ -1,49 +1,14 @@
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React, { useState } from "react";
-import AuthButton from "@/components/AuthButton";
-
-interface inputContainerProps {
-  placeholderValue: string;
-  children: React.ReactNode;
-}
+import AuthButton from "@/components/buttons/AuthButton";
+import LoginFormSwitch from "@/components/LoginFormSwitch";
+import InputContainer from "@/components/InputContainer";
 
 export interface loginProps {
   isLoginScreen: boolean;
   setIsLoginScreen: (isLoginScreen: boolean) => void;
 }
-
-const LoginFormSwitch: React.FC<loginProps> = ({
-  isLoginScreen,
-  setIsLoginScreen,
-}) => {
-  return (
-    <>
-      <TouchableOpacity>
-        <Text>
-          {!isLoginScreen
-            ? "Already have an account?\nSwitch to login form"
-            : "Don't have an account?\nSwitch to register form"}
-        </Text>
-      </TouchableOpacity>
-    </>
-  );
-};
-
-const InputContainer: React.FC<inputContainerProps> = ({
-  placeholderValue,
-  children,
-}) => {
-  return (
-    <View>
-      <Text style={style.inputTitle}>{children}</Text>
-      <TextInput
-        placeholder={placeholderValue}
-        style={style.inputContainer}
-      ></TextInput>
-    </View>
-  );
-};
 
 const LoginScreen = () => {
   const [isLoginScreen, setIsLoginScreen] = useState<boolean>(false);
@@ -53,7 +18,10 @@ const LoginScreen = () => {
       <Text style={style.mainTitleText}>
         {isLoginScreen ? "Log in" : "Register"}
       </Text>
-      <LoginFormSwitch isLoginScreen={isLoginScreen} />
+      <LoginFormSwitch
+        isLoginScreen={isLoginScreen}
+        setIsLoginScreen={setIsLoginScreen}
+      />
       <View style={style.wrapperContainer}>
         <InputContainer placeholderValue={"What's your name?"}>
           Your name
@@ -64,9 +32,14 @@ const LoginScreen = () => {
         <InputContainer placeholderValue={"At least 8 characters"}>
           Enter password
         </InputContainer>
-        <InputContainer placeholderValue={""}>Re-enter password</InputContainer>
+        <InputContainer placeholderValue={"Repeat the password"}>
+          Re-enter password
+        </InputContainer>
       </View>
-      <AuthButton isLoginScreen={isLoginScreen} />
+      <AuthButton
+        isLoginScreen={isLoginScreen}
+        setIsLoginScreen={setIsLoginScreen}
+      />
     </View>
   );
 };
@@ -86,19 +59,6 @@ const style = StyleSheet.create({
   wrapperContainer: {
     flexDirection: "column",
     gap: 16,
-  },
-  inputTitle: {
-    fontFamily: "Roboto",
-    fontSize: 18,
-  },
-  inputContainer: {
-    fontFamily: "Roboto",
-    fontSize: 18,
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 8,
-    width: 300,
   },
 });
 

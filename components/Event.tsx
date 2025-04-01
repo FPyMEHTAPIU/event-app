@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Image, Text } from "react-native";
 import { EventData } from "@/services/events";
-import BookButton from "@/components/BookButton";
+import BookButton from "@/components/buttons/BookButton";
 
 interface EventProps {
   event: EventData;
