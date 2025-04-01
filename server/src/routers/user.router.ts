@@ -96,7 +96,7 @@ userRouter.post("/api/users/register", async (req: Request, res: Response) => {
       res.status(500).json({ error: "User was not created" });
       return;
     }
-    res.status(201).json({ error: "User created successfully!" });
+    res.status(201).json({ message: "User created successfully!" });
   } catch (error) {
     console.error(error);
   }
