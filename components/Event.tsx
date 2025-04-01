@@ -48,7 +48,7 @@ const style = StyleSheet.create({
   imageContainer: {
     width: 72,
     height: 72,
-    borderRadius: "50%",
+    borderRadius: 50,
   },
   textContainer: {
     height: 72,
