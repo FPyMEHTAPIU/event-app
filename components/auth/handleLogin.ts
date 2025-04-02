@@ -23,12 +23,9 @@ const handleLogin = async (
       }),
     });
     const responseData = await loginResponse.json();
-    console.log(loginResponse);
-    console.log(responseData);
     if (loginResponse.ok && responseData && responseData.token) {
       await SecureStore.setItemAsync("userToken", responseData.token);
       dispatch(setToken(responseData.token));
-      console.log("success");
     } else {
       setErrorMessage(responseData?.error || "Unknown error");
     }

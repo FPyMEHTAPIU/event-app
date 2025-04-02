@@ -26,7 +26,6 @@ const handleRegister = async (
       }),
     });
     if (registerResponse.status === 201) {
-      console.log("success");
       setPopup(true);
       setTimeout(() => {
         setIsLoginScreen(true);
