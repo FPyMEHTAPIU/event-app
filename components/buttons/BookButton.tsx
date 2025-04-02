@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Constants from "expo-constants";
 import { useFocusEffect } from "@react-navigation/native";
+import { useBookedEvents } from "@/components/context";
 
 const ipPort =
   Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
@@ -16,6 +17,7 @@ const BookButton: React.FC<EventProps> = ({ event }) => {
   const userToken = useSelector((state: RootState) => state.auth.token);
   const [userId, setUserId] = useState<number>(0);
   const eventId = event.id as number;
+  const { refreshBookedEvents } = useBookedEvents();
 
   const checkBooking = async () => {
     try {
@@ -54,6 +56,7 @@ const BookButton: React.FC<EventProps> = ({ event }) => {
       });
       const data = await res.json();
       checkBooking();
+      refreshBookedEvents();
       if (!res.ok) {
         console.error(data);
       }

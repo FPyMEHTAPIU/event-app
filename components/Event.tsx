@@ -1,7 +1,15 @@
 import React from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
-import { EventData } from "@/services/events";
 import BookButton from "@/components/buttons/BookButton";
+
+interface EventData {
+  title: string;
+  description: string;
+  photo: string;
+  date: string;
+  time: string;
+  isBooked: boolean;
+}
 
 export interface EventProps {
   event: EventData;

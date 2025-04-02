@@ -162,7 +162,7 @@ userRouter.get("/api/user/events", async (req: Request, res: Response) => {
     );
 
     if (result.rows.length === 0) {
-      res.status(204).json({ message: "No events booked" });
+      res.status(204).end();
       return;
     }
 

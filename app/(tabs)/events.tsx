@@ -8,50 +8,25 @@ import {
 import { Text, View } from "@/components/Themed";
 import { useEffect, useState } from "react";
 import Event from "@/components/Event";
-import Constants from "expo-constants";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-const ipPort =
-  Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
+import { useBookedEvents } from "@/components/context";
 
 export default function EventsScreen() {
-  const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const userToken = useSelector((state: RootState) => state.auth.token);
+  const { bookedEvents, refreshBookedEvents } = useBookedEvents();
 
-  const getBookedEvents = async () => {
-    setLoading(true);
-    try {
-      if (!userToken) return;
-      const result = await fetch(`${ipPort}/api/user/events`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userToken}`,
-        },
-      });
-      const data = await result.json();
-      if (result.status === 200 && data?.events) {
-        setEvents(data.events);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
-    getBookedEvents();
+    refreshBookedEvents();
   }, []);
 
   return (
     <ScrollView style={styles.container}>
-      <Button title="Get events" onPress={getBookedEvents} />
+      <Button title="Get events" onPress={refreshBookedEvents} />
 
       {loading && <ActivityIndicator size="large" color="#007AFF" />}
 
       <View style={styles.eventsContainer}>
-        {events.length > 0
-          ? events.map((event, index) => (
+        {bookedEvents.length > 0
+          ? bookedEvents.map((event, index) => (
               <Event key={event.id || index} event={event} />
             ))
           : !loading && <Text>No events available</Text>}

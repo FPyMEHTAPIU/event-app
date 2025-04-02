@@ -14,6 +14,7 @@ import { Provider, useDispatch, useSelector } from "react-redux";
 import { store, RootState } from "@/store/store";
 import { loadToken } from "@/store/authSlice";
 import { useColorScheme } from "@/components/useColorScheme";
+import { BookedEventsProvider } from "@/components/context";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -84,12 +85,14 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen
-          name={isAuthenticated ? "(tabs)" : "login"}
-          options={{ headerShown: false }}
-        />
-      </Stack>
+      <BookedEventsProvider>
+        <Stack>
+          <Stack.Screen
+            name={isAuthenticated ? "(tabs)" : "login"}
+            options={{ headerShown: false }}
+          />
+        </Stack>
+      </BookedEventsProvider>
     </ThemeProvider>
   );
 }
