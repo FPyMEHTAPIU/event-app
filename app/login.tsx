@@ -1,4 +1,4 @@
-import { Button, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React, { useState } from "react";
 import AuthButton from "@/components/buttons/AuthButton";
@@ -88,7 +88,6 @@ const LoginScreen = () => {
       </View>
       {popup && (
         <Popup
-          setPopup={setPopup}
           slots={{
             title: "Account created",
             description: "You will be redirected to the login page in 5 sec.",

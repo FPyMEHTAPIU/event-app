@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Image, Text } from "react-native";
 import BookButton from "@/components/buttons/BookButton";
 
 interface EventData {
@@ -9,6 +9,7 @@ interface EventData {
   date: string;
   time: string;
   isBooked: boolean;
+  id: number;
 }
 
 export interface EventProps {

@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View } from "@/components/Themed";
 import { TextInput, StyleSheet } from "react-native";
+
 interface inputContainerProps {
   placeholderValue: string;
   children: React.ReactNode;

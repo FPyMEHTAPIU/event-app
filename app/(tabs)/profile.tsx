@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import * as SecureStore from "expo-secure-store";
 
 import { Text, View } from "@/components/Themed";

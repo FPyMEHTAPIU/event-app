@@ -11,6 +11,7 @@ export default function EventsScreen() {
 
   useEffect(() => {
     refreshBookedEvents();
+    setLoading(false);
   }, []);
 
   return (

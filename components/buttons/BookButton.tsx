@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Text } from "react-native";
 import { EventProps } from "@/components/Event";
 import { useSelector } from "react-redux";
@@ -10,7 +10,6 @@ import { useBookedEvents } from "@/components/context";
 
 const ipPort =
   Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
-const secret = process.env.SECRET_KEY;
 
 const BookButton: React.FC<EventProps> = ({ event }) => {
   const [isBooked, setIsBooked] = useState(false);

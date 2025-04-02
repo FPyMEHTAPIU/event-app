@@ -1,5 +1,4 @@
 import Constants from "expo-constants";
-// import {fetch} from "expo/fetch";
 const ipPort =
   Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
 import { RegisterDataProps } from "@/components/buttons/AuthButton";

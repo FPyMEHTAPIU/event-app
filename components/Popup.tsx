@@ -1,9 +1,8 @@
-import { Button, StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "@/components/Themed";
 import React from "react";
 
 interface PopupProps {
-  setPopup: (popup: boolean) => void;
   slots: {
     title?: React.ReactNode;
     description?: React.ReactNode;
@@ -12,7 +11,7 @@ interface PopupProps {
   };
 }
 
-const Popup: React.FC<PopupProps> = ({ setPopup, slots }) => (
+const Popup: React.FC<PopupProps> = ({ slots }) => (
   <View style={style.background}>
     <View style={style.popupContainer}>
       <View style={style.textContainer}>
@@ -35,7 +34,6 @@ const Popup: React.FC<PopupProps> = ({ setPopup, slots }) => (
           </TouchableOpacity>
         )}
       </View>
-      {/*<Button title="Turn off" onPress={() => setPopup(false)} />*/}
     </View>
   </View>
 );
