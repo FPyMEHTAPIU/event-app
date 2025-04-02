@@ -65,8 +65,15 @@ const BookButton: React.FC<EventProps> = ({ event }) => {
     }
   };
   return (
-    <TouchableOpacity onPress={handleBooking} style={style.bookBtn}>
-      <Text style={style.btnText}>{isBooked ? "Cancel" : "Book"}</Text>
+    <TouchableOpacity
+      onPress={handleBooking}
+      style={isBooked ? style.cancelBtn : style.bookBtn}
+    >
+      {isBooked ? (
+        <Text style={style.cancelBtnText}>Cancel</Text>
+      ) : (
+        <Text style={style.btnText}>Book</Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -81,11 +88,29 @@ const style = StyleSheet.create({
     borderRadius: 48,
     backgroundColor: "#6B4EFF",
   },
+  cancelBtn: {
+    width: 80,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 48,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#FF5247",
+  },
   btnText: {
     fontFamily: "Roboto",
     fontSize: 12,
     fontWeight: 500,
     color: "white",
+    textAlign: "center",
+  },
+  cancelBtnText: {
+    fontFamily: "Roboto",
+    fontSize: 12,
+    fontWeight: 500,
+    color: "#FF5247",
     textAlign: "center",
   },
 });
