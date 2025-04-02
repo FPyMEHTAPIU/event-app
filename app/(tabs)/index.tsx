@@ -1,9 +1,4 @@
-import {
-  ActivityIndicator,
-  Button,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import Event from "@/components/Event";
@@ -37,8 +32,6 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Button title="Get events" onPress={getEvents} />
-
       {loading && <ActivityIndicator size="large" color="#007AFF" />}
 
       <View style={styles.eventsContainer}>

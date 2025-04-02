@@ -1,9 +1,4 @@
-import {
-  ActivityIndicator,
-  Button,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import { useEffect, useState } from "react";
@@ -20,8 +15,6 @@ export default function EventsScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Button title="Get events" onPress={refreshBookedEvents} />
-
       {loading && <ActivityIndicator size="large" color="#007AFF" />}
 
       <View style={styles.eventsContainer}>

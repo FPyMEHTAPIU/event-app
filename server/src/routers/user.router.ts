@@ -29,11 +29,22 @@ userRouter.get("/api/users/check-token", (req: Request, res: Response) => {
   }
 });
 
-userRouter.get("/api/users/:id", async (req: Request, res: Response) => {
+userRouter.get("/api/user/", async (req: Request, res: Response) => {
   try {
+    const auth = req.headers.authorization;
+    if (!auth) {
+      res.status(401).json({ error: "Token not found" });
+      return;
+    }
+
+    const userId = Number(getUserIdFromToken(auth));
+    if (isNaN(userId)) {
+      res.status(400).json({ error: "Invalid user ID from token" });
+      return;
+    }
     const result = await pool.query(
       "SELECT login, name, photo FROM users WHERE id = $1;",
-      [req.params.id],
+      [userId],
     );
     if (result.rows.length === 0) {
       res.status(404).json({ error: "User not found" });
