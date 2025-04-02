@@ -11,7 +11,6 @@ import Constants from "expo-constants";
 import { useEffect, useState } from "react";
 const ipPort =
   Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
-// import events from "@/services/events";
 
 export default function HomeScreen() {
   const [events, setEvents] = useState<any[]>([]);

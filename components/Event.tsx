@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { EventData } from "@/services/events";
 import BookButton from "@/components/buttons/BookButton";
 
-interface EventProps {
+export interface EventProps {
   event: EventData;
 }
 
@@ -22,7 +22,7 @@ const Event: React.FC<EventProps> = ({ event }) => {
           <Text style={style.dateTime}>{event.date}</Text>
           <Text style={style.dateTime}>{event.time}</Text>
         </View>
-        <BookButton />
+        <BookButton event={event} />
       </View>
     </View>
   );

@@ -1,16 +1,62 @@
-import { Button, StyleSheet, TouchableOpacity } from "react-native";
-import { useState } from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Text } from "react-native";
+import { EventProps } from "@/components/Event";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import Constants from "expo-constants";
 
-const BookButton = () => {
+const ipPort =
+  Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
+const secret = process.env.SECRET_KEY;
+
+const BookButton: React.FC<EventProps> = ({ event }) => {
   const [isBooked, setIsBooked] = useState(false);
+  const userToken = useSelector((state: RootState) => state.auth.token);
+  const [userId, setUserId] = useState<number>(0);
+  const eventId = event.id as number;
 
-  const handleBooking = () => {
-    //TODO: make API request to check isBooked?
-    //  add to booked list
-    //  remove from booked list
+  const checkBooking = async () => {
+    try {
+      if (!userToken) return;
+      const res = await fetch(`${ipPort}/api/user/events/${eventId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userToken}`,
+        },
+      });
+      const data = await res.json();
+      setIsBooked(!(!data || !data.isBooked));
+      setUserId(data.userId);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    setIsBooked(!isBooked);
+  useEffect(() => {
+    checkBooking();
+  }, []);
+
+  const handleBooking = async () => {
+    try {
+      const res = await fetch(`${ipPort}/api/user/events/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          eventId: eventId,
+        }),
+      });
+      const data = await res.json();
+      checkBooking();
+      if (!res.ok) {
+        console.error(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <TouchableOpacity onPress={handleBooking} style={style.bookBtn}>
