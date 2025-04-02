@@ -1,10 +1,11 @@
 import { StyleSheet, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Text } from "react-native";
 import { EventProps } from "@/components/Event";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Constants from "expo-constants";
+import { useFocusEffect } from "@react-navigation/native";
 
 const ipPort =
   Constants.expoConfig?.extra?.LOCAL_IP_PORT || "http://localhost:3000";
@@ -33,9 +34,11 @@ const BookButton: React.FC<EventProps> = ({ event }) => {
     }
   };
 
-  useEffect(() => {
-    checkBooking();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      checkBooking();
+    }, [eventId, userToken]),
+  );
 
   const handleBooking = async () => {
     try {
