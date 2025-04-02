@@ -69,6 +69,9 @@ npm start
 
 ### 4. Running the app
 
+At the root folder create `.env` file and fill it according to `.env_example`
+
+
 Now at the root folder run:
 
 ```bash
